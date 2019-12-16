@@ -1,0 +1,12 @@
+#!/bin/bash
+
+DIFF=$(( $(date -d "$1" +%s) - $(date +%s) )) 
+
+days=$(( DIFF/(3600*24) )) 
+hours=$(( DIFF % (3600*24)/3600 ))
+
+if [ $days == 0 ] && [ $hours == 0 ]; then
+	echo Time is up
+else
+	echo You have only "$days" days and "$hours" hours
+fi

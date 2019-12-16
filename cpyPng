@@ -1,0 +1,4 @@
+#!/bin/bash
+
+read pathToImg
+xclip -t image/png -selection clipboard -i $pathToImg

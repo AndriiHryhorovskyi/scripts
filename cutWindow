@@ -1,0 +1,9 @@
+#!/bin/bash
+
+fileDate=`date +%Y-%m-%d_%H:%M:%S`
+fileExt='.png'
+pathToFile="$HOME/Pictures/$fileDate$fileExt"
+
+scrot -u -z $pathToFile
+
+echo $pathToFile
