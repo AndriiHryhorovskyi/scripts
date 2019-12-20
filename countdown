@@ -5,8 +5,8 @@ DIFF=$(( $(date -d "$1" +%s) - $(date +%s) ))
 days=$(( DIFF/(3600*24) )) 
 hours=$(( DIFF % (3600*24)/3600 ))
 
-if [ $days == 0 ] && [ $hours == 0 ]; then
-	echo Time is up
+if [ $days -le 0 ] || [ $hours -le 0 ]; then
+	echo Time is up. Deadline was until "$1"
 else
-	echo You have only "$days" days and "$hours" hours
+	echo You have only "$days" day\(s\) and "$hours" hour\(s\)
 fi
