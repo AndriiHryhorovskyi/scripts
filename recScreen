@@ -8,11 +8,11 @@ then
 fi
 
 [ ! -d "~/.recs" ] && mkdir ~/.recs
-[ ! -d "~/.recs/calls" ] && mkdir ~/.recs/calls
+[ ! -d "~/.recs/calls" ] && mkdir ~/.recs/screen
 
 
 ffmpeg \
 -f pulse -ac 2 -ar 48000 -i alsa_output.pci-0000_00_1f.3.analog-stereo.monitor \
 -f x11grab  -video_size 1920x1080 -framerate 30 -i :0.0+0,0 -c:v libx264 -crf 0 -preset ultrafast \
-/home/andrii/.recs/calls/"$fileName".mkv
+/home/andrii/.recs/screen/"$fileName".mkv
 
