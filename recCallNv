@@ -1,0 +1,24 @@
+#!/bin/bash
+
+fileName="$1"
+
+if [ "$#" -eq 0 ]
+then 
+  fileName=`date`
+fi
+
+[ ! -d "~/.recs" ] && mkdir ~/.recs
+[ ! -d "~/.recs/calls" ] && mkdir ~/.recs/calls
+
+amixer -c 0 -- sset "Capture",0 80 cap
+amixer sset "Mic Boost" 2
+
+ffmpeg \
+  -f pulse -ac 2 -ar 48000 -i alsa_output.pci-0000_00_14.2.analog-stereo.monitor \
+  -f pulse -ac 2 -ar 48000 -i alsa_input.pci-0000_00_14.2.analog-stereo \
+  -filter_complex amix=inputs=2 \
+  -f x11grab  -video_size 1600x1200 -framerate 60 -hwaccel cuda -hwaccel_output_format cuda -i :0.0+0,0 -c:v h264_nvenc -preset slow -rc constqp -qp 30 \
+  ~/.recs/calls/"$fileName".mkv
+
+  amixer sset "Mic Boost" 0
+  amixer -c 0 -- sset "Capture",0 0 cap
