@@ -20,7 +20,7 @@ ffmpeg \
   -f pulse -ac 2 -ar 48000 -i alsa_input.pci-0000_00_14.2.analog-stereo \
   -filter_complex amix=inputs=2 \
   -f x11grab  -video_size 1600x1200 -framerate 30 -i :0.0+0,0 -c:v libx264 -crf 0 -preset ultrafast \
-  /home/andrii/.recs/calls/"$fileName".mkv
+  ~/.recs/calls/"$fileName".mkv
 
   amixer sset "Mic Boost" 0
   amixer -c 0 -- sset "Capture",0 0 cap
