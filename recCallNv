@@ -17,7 +17,7 @@ ffmpeg \
   -f pulse -ac 2 -ar 48000 -i alsa_output.pci-0000_00_14.2.analog-stereo.monitor \
   -f pulse -ac 2 -ar 48000 -i alsa_input.pci-0000_00_14.2.analog-stereo \
   -filter_complex amix=inputs=2 \
-  -f x11grab  -video_size 1600x1200 -framerate 60 -hwaccel cuda -hwaccel_output_format cuda -i :0.0+0,0 -c:v h264_nvenc -preset slow -rc constqp -qp 30 \
+  -f x11grab  -video_size 1600x1200 -framerate 60 -hwaccel cuda -hwaccel_output_format cuda -i :0.0+0,0 -c:v h264_nvenc -b 100M -preset slow -rc constqp -qp 30 \
   ~/.recs/calls/"$fileName".mkv
 
   amixer sset "Mic Boost" 0
