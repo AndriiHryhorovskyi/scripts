@@ -1,0 +1,20 @@
+#!/bin/bash
+# /usr/bin/pixelLock
+
+# take screenshot
+import -window root /tmp/screenshot.png
+
+# pixelate it
+convert -scale 10% -scale 1000% /tmp/screenshot.png /tmp/pixelatedScreenshot.png
+rm /tmp/screenshot.png
+
+# set us keyboard layout
+setxkbmap -layout us -option ctrl:swapcaps
+
+# lock the screen
+i3lock -i /tmp/pixelatedScreenshot.png
+
+# sleep 1 adds a small delay to prevent possible race conditions with suspend
+sleep 1
+
+exit 0
