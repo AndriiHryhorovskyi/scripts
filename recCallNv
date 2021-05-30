@@ -1,24 +1,27 @@
 #!/bin/bash
 
-fileName="$1"
+# pacmd list-sources -- to get devices
 
-if [ "$#" -eq 0 ]
-then 
-  fileName=`date`
-fi
+theme="$1"
+recDate=`date +%Y-%m-%d_%R_`
 
-[ ! -d "~/.recs" ] && mkdir ~/.recs
-[ ! -d "~/.recs/calls" ] && mkdir ~/.recs/calls
+[ ! -d "~/backup/recs" ] && mkdir ~/backup/recs
 
-amixer -c 0 -- sset "Capture",0 80 cap
-amixer sset "Mic Boost" 2
+# PC cable
+# -f pulse -ac 2 -ar 48000 -i alsa_output.pci-0000_00_14.2.analog-stereo.monitor \
+# -f pulse -ac 2 -ar 48000 -i alsa_input.pci-0000_00_14.2.analog-stereo \
+
+# PC aux+mic over wev cam (pipewire device names)
+# -f pulse -ac 2 -ar 48000 -i bluez_sink.41_42_D6_00_4E_90.a2dp_sink.monitor \
+# -f pulse -ac 2 -ar 48000 -i alsa_input.usb-Microsoft_Microsoft_LifeCam_VX-5000-02.mono-fallback \
+
+# PC full aux (pipewire device names)
+# -f pulse -ac 2 -ar 48000 -i bluez_output.41_42_D6_00_4E_90.headset-head-unit.monitor \
+# -f pulse -ac 2 -ar 48000 -i bluez_input.41_42_D6_00_4E_90.headset-head-unit \
 
 ffmpeg \
   -f pulse -ac 2 -ar 48000 -i alsa_output.pci-0000_00_14.2.analog-stereo.monitor \
   -f pulse -ac 2 -ar 48000 -i alsa_input.pci-0000_00_14.2.analog-stereo \
   -filter_complex amix=inputs=2 \
   -f x11grab  -video_size 1600x1200 -framerate 60 -hwaccel cuda -hwaccel_output_format cuda -i :0.0+0,0 -c:v h264_nvenc -b 100M -preset slow -rc constqp -qp 30 \
-  ~/.recs/calls/"$fileName".mkv
-
-  amixer sset "Mic Boost" 0
-  amixer -c 0 -- sset "Capture",0 0 cap
+  ~/backup/recs/"${recDate}${theme}".mkv
