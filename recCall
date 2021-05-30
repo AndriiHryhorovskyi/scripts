@@ -2,15 +2,10 @@
 
 # pacmd list-sources -- to get devices
 
-fileName="$1"
+theme="$1"
+recDate=`date +%Y-%m-%d_%R_`
 
-if [ "$#" -eq 0 ]
-then 
-  fileName=`date`
-fi
-
-[ ! -d "~/.recs" ] && mkdir ~/.recs
-[ ! -d "~/.recs/calls" ] && mkdir ~/.recs/calls
+[ ! -d "~/backup/recs" ] && mkdir ~/backup/recs
 
 amixer -c 0 -- sset "Capture",0 80 cap
 amixer sset "Mic Boost" 2
@@ -20,7 +15,7 @@ ffmpeg \
   -f pulse -ac 2 -ar 48000 -i alsa_input.pci-0000_00_14.2.analog-stereo \
   -filter_complex amix=inputs=2 \
   -f x11grab  -video_size 1600x1200 -framerate 30 -i :0.0+0,0 -c:v libx264 -crf 0 -preset ultrafast \
-  ~/.recs/calls/"$fileName".mkv
+  ~/.recs/calls/"${recDate}${theme}".mkv
 
   amixer sset "Mic Boost" 0
   amixer -c 0 -- sset "Capture",0 0 cap
